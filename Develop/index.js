@@ -1,20 +1,25 @@
 // Imports inquirer and fs to this file to have the ability to ask questions to the user and to create a file with the file system
 const inquirer = require('inquirer');
 const fs = require('fs');
+const licenseOptions = [
+  {
+    name: 'Apache License 2.0',
+    badge: '[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)'
+  },
+  {
+    name: 'MIT',
+    badge: '[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)'
+  },
+  {
+    name: 'Boost Software License 1.0',
+    badge: '[![License](https://img.shields.io/badge/License-Boost_1.0-lightblue.svg)](https://www.boost.org/LICENSE_1_0.txt)'
+  },
+  {
+    name: 'Mozilla Public License 2.0',
+    badge: '[![License: MPL 2.0](https://img.shields.io/badge/License-MPL_2.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0)'
+  }
+];
 
-// Creates an array of questions for user input
-// const questions = [
-//   'What is the title of your project?', 
-//   'Enter a description of your project.', 
-//   'List the installation instructions for your project', 
-//   'Enter the usage information.', 
-//   'Enter the contribution guidelines', 
-//   'Enter test instructions.', 
-//   'Please choose a license for your project.'
-// ];
-
-// TODO: Create a function to write README file
-// function writeToFile(fileName, data) {}
 // Inquirer asks questions to the user and stores the answers to be available to access later
 inquirer
   .prompt([
@@ -67,20 +72,30 @@ inquirer
       type: 'list',
       name: 'license',
       message: 'Please choose a license for your project.',
-      choices: ['Apache License 2.0', 'MIT License', 'Boost Software License 1.0', 'Mozilla Public License 2.0']
-    },
+      choices: [
+        `${licenseOptions[0].name}`,
+        `${licenseOptions[1].name}`,
+        `${licenseOptions[2].name}`,
+        `${licenseOptions[3].name}`,
+      ]
+    }
   ])
-  // Stores the generateHTML content with the answers to the htmlPageContent constant
+
+
+
+  // Stores the user answers from the prompt questions
   .then((answers) => {
+  
+    // Creates const for markDownPageContent and assigns the value of the generateMarkDown function with a parameter of the stored answers
     const markDownPageContent = generateMarkDown(answers);
     // Uses fs.writeFile to write an index.html file with the content from markdownPageContent, and catches an error if there is one
     fs.writeFile('README.md', markDownPageContent, (err) =>
     // Uses ternary operator to check if there's an error, if not then 'Successfully created index.js' is logged.
       err ? console.log(err) : console.log('Successfully created README.md!')
     );
-  });
+  })
 
-// Generates HTML content that will be written to index.js by using template literals and accessing the data from the inquirer prompt objects
+// Generates markdown content that will be written to README.md by using template literal notation and accessing the data from the inquirer prompt objects
 const generateMarkDown = ({ title, description, installation, usage, contribution, test, github, linkedin, email, license}) =>
   `# ${title}
 
@@ -110,7 +125,7 @@ const generateMarkDown = ({ title, description, installation, usage, contributio
 
   ${contribution}
   
-  To view the repository of this weather app and contribute to this application click the following link:  [First Weather App Repo](https://github.com/${github}/first-weather-app)
+  To view the repository of this application and contribute to this application click the following link:  [${title} Repo]()
   
   If you need help on how to clone a GitHub repository into your local repository, visit the following GitHub link: [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) 
 
@@ -127,91 +142,15 @@ const generateMarkDown = ({ title, description, installation, usage, contributio
   
   ## License
   
-  Link to [${license}](https://github.com/${github}/coding-quiz-challenge/blob/main/LICENSE)`;
+  Link to [${license}]()`;
 
-// TODO: Create a function to initialize app
-function init() {}
+// // TODO: Create a function to initialize app
+// function init() {}
 
-// Function call to initialize app
-init();
+// // Function call to initialize app
+// init();
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-// imports inquirer and fs to this file to have the ability to ask questions to the user and to create a file with the file system
-// const inquirer = require('inquirer');
-// const fs = require('fs');
-
-// Generates HTML content that will be written to index.js by using template literals and accessing the data from the inquirer prompt objects
-// const generateHTML = ({ name, location, github, linkedin, hobby, food }) =>
-//   `<!DOCTYPE html>
-// <html lang="en">
-// <head>
-//   <meta charset="UTF-8">
-//   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-//   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
-//   <title>Document</title>
-// </head>
-// <body>
-//   <header class="p-5 mb-4 header bg-light">
-//     <div class="container">
-//       <h1 class="display-4">Hi! My name is ${name}</h1>
-//       <p class="lead">I am from ${location}.</p>
-//       <h3>Example heading <span class="badge bg-secondary">Contact Me</span></h3>
-//       <ul class="list-group">
-//         <li class="list-group-item">My GitHub username is ${github}</li>
-//         <li class="list-group-item">LinkedIn: <a href = "${linkedin}">${linkedin}</a></li>
-//         <li class="list-group-item">My favorite hobby is ${hobby}</li>
-//         <li class="list-group-item">My favorite food is ${food}</li>
-//       </ul>
-//     </div>
-//   </header>
-// </body>
-// </html>`;
-
-// Inquirer asks questions to the user and stores the answers to be available to access later
-// inquirer
-//   .prompt([
-//     {
-//       type: 'input',
-//       name: 'name',
-//       message: 'What is your name?',
-//     },
-//     {
-//       type: 'input',
-//       name: 'location',
-//       message: 'Where are you from?',
-//     },
-//     {
-//       type: 'input',
-//       name: 'hobby',
-//       message: 'What is your favorite hobby?',
-//     },
-//     {
-//       type: 'input',
-//       name: 'food',
-//       message: 'What is your favorite food?',
-//     },
-//     {
-//       type: 'input',
-//       name: 'github',
-//       message: 'Enter your GitHub Username',
-//     },
-//     {
-//       type: 'input',
-//       name: 'linkedin',
-//       message: 'Enter your LinkedIn URL.',
-//     },
-//   ])
-//   // Stores the generateHTML content with the answers to the htmlPageContent constant
-//   .then((answers) => {
-//     const htmlPageContent = generateHTML(answers);
-//     // Uses fs.writeFile to write an index.html file with the content from htmlPageContent, and catches an error if there is one
-//     fs.writeFile('index.html', htmlPageContent, (err) =>
-//     // Uses ternary operator to check if there's an error, if not then 'Successfully created index.js' is logged.
-//       err ? console.log(err) : console.log('Successfully created index.html!')
-//     );
-//   });
 
 /*
 GIVEN a command-line application that accepts user input
