@@ -50,6 +50,11 @@ inquirer
     },
     {
       type: 'input',
+      name: 'email',
+      message: 'Enter e-mail you would like to be reached out if someone has additional questions about this application.',
+    },
+    {
+      type: 'input',
       name: 'github',
       message: 'Enter your GitHub Username.',
     },
@@ -76,7 +81,7 @@ inquirer
   });
 
 // Generates HTML content that will be written to index.js by using template literals and accessing the data from the inquirer prompt objects
-const generateMarkDown = ({ title, description, installation, usage, contribution, test, github, linkedin}) =>
+const generateMarkDown = ({ title, description, installation, usage, contribution, test, github, linkedin, email, license}) =>
   `# ${title}
 
   ## Description
@@ -90,10 +95,7 @@ const generateMarkDown = ({ title, description, installation, usage, contributio
   - [Usage](#usage)
   - [Contribute](#contribute)
   - [Test](#test)
-  - [Appearance](#appearance)
-  - [Changes](#changes)
-  - [Features](#features)
-  - [Credits](#credits)
+  - [Questions](#questions)
   - [License](#license)
 
   ## Installation
@@ -115,37 +117,17 @@ const generateMarkDown = ({ title, description, installation, usage, contributio
   ## Test
 
   ${test}
-  
-  ## Appearance
-  
-  Deployed Screenshot:
-      ![First Weather App](assets/images/first-weather-app.png)
-  
-  To view the deployed webpage click the following link: [Deployed Webpage](https://${github}.github.io/first-weather-app/)
-  
-  ## Changes
-  
-  I would like to make the following changes to this weather app:
-  
-  - Add more styling to the page with bootstrap
-  - Change the background image of the page to an image of the city being searched
-  - Add a night mode when searches are being made after a certain hour
-  
-  
-  ## Features
-  
-  Some of the features in this application include:
-  
-  - Use of API data
-  - Local Storage
-  
-  ## Credits
-  
-  Open Weather Map API [https://openweathermap.org/]
+
+  ## Questions
+
+  If you have any additional questions about this application, you can reach me via e-mail.
+  - [EMAIL](mailto:${email})
+  - [GITHUB](https://github.com/${github})
+  - [LINKEDIN](${linkedin})
   
   ## License
   
-  Link to [The MIT License (MIT)](https://github.com/${github}/coding-quiz-challenge/blob/main/LICENSE)`;
+  Link to [${license}](https://github.com/${github}/coding-quiz-challenge/blob/main/LICENSE)`;
 
 // TODO: Create a function to initialize app
 function init() {}
