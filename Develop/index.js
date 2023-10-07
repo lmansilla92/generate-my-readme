@@ -1,154 +1,128 @@
-// Imports inquirer and fs to this file to have the ability to ask questions to the user and to create a file with the file system
-const inquirer = require('inquirer');
+// TODO: Include packages needed for this application
 const fs = require('fs');
-const licenseOptions = [
-  {
-    name: 'Apache License 2.0',
-    badge: '[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)'
-  },
-  {
-    name: 'MIT',
-    badge: '[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)'
-  },
-  {
-    name: 'Boost Software License 1.0',
-    badge: '[![License](https://img.shields.io/badge/License-Boost_1.0-lightblue.svg)](https://www.boost.org/LICENSE_1_0.txt)'
-  },
-  {
-    name: 'Mozilla Public License 2.0',
-    badge: '[![License: MPL 2.0](https://img.shields.io/badge/License-MPL_2.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0)'
-  }
+const inquirer = require('inquirer');
+const generateMarkdown = require('./utils/generateMarkdown');
+const licenseOptions = generateMarkdown.licenseOptions;
+// console.log(licenseOptions);
+// console.log(generateMarkdown);
+
+// TODO: Create an array of questions for user input
+const questions = [
+    'What is the title of your project?',
+    'Enter a description of your project.',
+    'List the installation instructions for your project.',
+    'Enter the usage information.',
+    'Enter the contribution guidelines.',
+    'Enter any test instructions you may have.',
+    'Enter e-mail you would like to be reached out if someone has additional questions about this application.',
+    'Enter your GitHub Username.',
+    'Enter your LinkedIn URL.',
+    'Please choose a license for your project.',
 ];
 
-// Inquirer asks questions to the user and stores the answers to be available to access later
-inquirer
-  .prompt([
+// TODO: Create a function to write README file
+function writeToFile(fileName, readme) {
+    fs.writeFile('README.md', readme, (err) =>
+    // Uses ternary operator to check if there's an error, if not then 'Successfully created index.js' is logged.
+      err ? console.log(err) : console.log('Successfully created README.md!'))
+};
+
+// TODO: Create a function to initialize app
+function init() {
+    // Inquirer asks questions to the user and stores the answers to be available to access later
+    inquirer
+    .prompt([
     {
-      type: 'input',
-      name: 'title',
-      message: 'What is the title of your project?',
+        type: 'input',
+        name: 'title',
+        message: questions[0],
+        // message: 'What is the title of your project?'
     },
     {
-      type: 'input',
-      name: 'description',
-      message: 'Enter a description of your project.',
+        type: 'input',
+        name: 'description',
+        message: questions[1],
+        // message: 'Enter a description of your project.',
     },
     {
-      type: 'input',
-      name: 'installation',
-      message: 'List the installation instructions for your project.',
+        type: 'input',
+        name: 'installation',
+        message: questions[2],
+        // message: 'List the installation instructions for your project.',
     },
     {
-      type: 'input',
-      name: 'usage',
-      message: 'Enter the usage information.',
+        type: 'input',
+        name: 'usage',
+        message: questions[3],
+        // messaage: 'Enter the usage information.',
     },
     {
-      type: 'input',
-      name: 'contribution',
-      message: 'Enter the contribution guidelines.',
+        type: 'input',
+        name: 'contribution',
+        message: questions[4],
+        // message: 'Enter the contribution guidelines.',
     },
     {
-      type: 'input',
-      name: 'test',
-      message: 'Enter any test instructions you may have.',
+        type: 'input',
+        name: 'test',
+        message: questions[5],
+        // message: 'Enter any test instructions you may have.',
     },
     {
-      type: 'input',
-      name: 'email',
-      message: 'Enter e-mail you would like to be reached out if someone has additional questions about this application.',
+        type: 'input',
+        name: 'email',
+        message: questions[6],
+        // message: 'Enter e-mail you would like to be reached out if someone has additional questions about this application.',
     },
     {
-      type: 'input',
-      name: 'github',
-      message: 'Enter your GitHub Username.',
+        type: 'input',
+        name: 'github',
+        message: questions[7],
+        // message: 'Enter your GitHub Username.',
     },
     {
-      type: 'input',
-      name: 'linkedin',
-      message: 'Enter your LinkedIn URL.',
+        type: 'input',
+        name: 'linkedin',
+        message: questions[8],
+        // message: 'Enter your LinkedIn URL.',
     },
     {
-      type: 'list',
-      name: 'license',
-      message: 'Please choose a license for your project.',
-      choices: [
+        type: 'list',
+        name: 'license',
+        message: questions[9],
+        // message: 'Please choose a license for your project.',
+        choices: [
         `${licenseOptions[0].name}`,
         `${licenseOptions[1].name}`,
         `${licenseOptions[2].name}`,
         `${licenseOptions[3].name}`,
-      ]
+        ]
     }
-  ])
+])
 
 
 
-  // Stores the user answers from the prompt questions
-  .then((answers) => {
-  
-    // Creates const for markDownPageContent and assigns the value of the generateMarkDown function with a parameter of the stored answers
-    const markDownPageContent = generateMarkDown(answers);
-    // Uses fs.writeFile to write an index.html file with the content from markdownPageContent, and catches an error if there is one
-    fs.writeFile('README.md', markDownPageContent, (err) =>
-    // Uses ternary operator to check if there's an error, if not then 'Successfully created index.js' is logged.
-      err ? console.log(err) : console.log('Successfully created README.md!')
-    );
-  })
+    // Stores the user answers from the prompt questions
+    .then((answers) => {
+        // console.log('Answers from index.js', answers);
 
-// Generates markdown content that will be written to README.md by using template literal notation and accessing the data from the inquirer prompt objects
-const generateMarkDown = ({ title, description, installation, usage, contribution, test, github, linkedin, email, license}) =>
-  `# ${title}
+        const license = answers.license;
+        // console.log('This is the license from index.js: ', license);
+        generateMarkdown.renderLicenseBadge(license);
 
-  ## Description
-  
-  ${description}
-  
-  ## Table of Contents
-  
-  - [Description](#description)
-  - [Installation](#installation)
-  - [Usage](#usage)
-  - [Contribute](#contribute)
-  - [Test](#test)
-  - [Questions](#questions)
-  - [License](#license)
+        const answerData = answers;
+        // console.log('These are the answers from index.js: ', answerData);
 
-  ## Installation
+        const readme = generateMarkdown.generateMarkdown(answerData);
+        // console.log('This is the README content from index.js: ', readme);
+        writeToFile('README.md', readme);
+        generateMarkdown.renderLicenseSection(JSON.stringify(generateMarkdown.licenseOptions));
+    });
 
-  ${installation}
+};
 
-  ## Usage
-
-  ${usage}
-  
-  ## Contribute
-
-  ${contribution}
-  
-  To view the repository of this application and contribute to this application click the following link:  [${title} Repo]()
-  
-  If you need help on how to clone a GitHub repository into your local repository, visit the following GitHub link: [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) 
-
-  ## Test
-
-  ${test}
-
-  ## Questions
-
-  If you have any additional questions about this application, you can reach me via e-mail.
-  - [EMAIL](mailto:${email})
-  - [GITHUB](https://github.com/${github})
-  - [LINKEDIN](${linkedin})
-  
-  ## License
-  
-  Link to [${license}]()`;
-
-// // TODO: Create a function to initialize app
-// function init() {}
-
-// // Function call to initialize app
-// init();
+// Function call to initialize app
+init();
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

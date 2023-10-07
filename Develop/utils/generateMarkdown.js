@@ -1,6 +1,55 @@
-// TODO: Create a function that returns a license badge based on which license is passed in
+const fs = require('fs');
+const licenseOptions = [
+  {
+    name: 'Apache License 2.0',
+    badge: '[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)'
+  },
+  {
+    name: 'MIT',
+    badge: '[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)'
+  },
+  {
+    name: 'Boost Software License 1.0',
+    badge: '[![License](https://img.shields.io/badge/License-Boost_1.0-lightblue.svg)](https://www.boost.org/LICENSE_1_0.txt)'
+  },
+  {
+    name: 'Mozilla Public License 2.0',
+    badge: '[![License: MPL 2.0](https://img.shields.io/badge/License-MPL_2.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0)'
+  }
+];
+
+let licenseBadge = '';
+let licenseName = '';
+
+// Returns a license badge based on which license is passed in
 // If there is no license, return an empty string
-function renderLicenseBadge(license) {}
+function renderLicenseBadge(license) {
+  // console.log('license logged from generateMarkdown ', license);
+  switch (license) {
+    case 'Apache License 2.0':
+      licenseBadge = licenseOptions[0].badge;
+      licenseName = licenseOptions[0].name;
+      // console.log('This is the chosen license badge: ', licenseBadge);
+      break;
+    case 'MIT':
+      licenseBadge = licenseOptions[1].badge;
+      licenseName = licenseOptions[1].name;
+      // console.log('This is the chosen license badge: ', licenseBadge);
+      break;
+    case 'Boost Software License 1.0':
+      licenseBadge = licenseOptions[2].badge;
+      licenseName = licenseOptions[2].name;
+      // console.log('This is the chosen license badge: ', licenseBadge);
+      break;  
+    case 'Mozilla Public License 2.0':
+      licenseBadge = licenseOptions[3].badge;
+      licenseName = licenseOptions[3].name;
+      // console.log('This is the chosen license badge: ', licenseBadge);
+      break;
+      default:
+        return '';
+  }
+}
 
 // TODO: Create a function that returns the license link
 // If there is no license, return an empty string
@@ -8,13 +57,73 @@ function renderLicenseLink(license) {}
 
 // TODO: Create a function that returns the license section of README
 // If there is no license, return an empty string
-function renderLicenseSection(license) {}
+function renderLicenseSection(license) {
+  if(fs.existsSync('../README.md')) {
+    fs.appendFile('README.md',
+    `\n  
+  ## License
+    \n  ${licenseName}  
+    ${licenseBadge}`, (err) =>
+    err ? console.log(err) : console.log("File appended!")
+    );
+  };
+};
 
-// TODO: Create a function to generate markdown for README
-function generateMarkdown(data) {
-  return `# ${data.title}
+// Generates markdown content for README
+function generateMarkdown(answers) {
+  // console.log('answers logged from generateMarkdown: ', answers);
 
-`;
+  return `# ${answers.title}
+
+  ## Description
+  
+  ${answers.description}
+  
+  ## Table of Contents
+  
+  - [Description](#description)
+  - [Installation](#installation)
+  - [Usage](#usage)
+  - [Contribute](#contribute)
+  - [Test](#test)
+  - [Questions](#questions)
+  - [License](#license)
+
+  ## Installation
+
+  ${answers.installation}
+
+  ## Usage
+
+  ${answers.usage}
+  
+  ## Contribute
+
+  ${answers.contribution}
+  
+  To view the repository of this application and contribute to this application click the following link:  [${answers.title} Repo]()
+  
+  If you need help on how to clone a GitHub repository into your local repository, visit the following GitHub link: [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) 
+
+  ## Test
+
+  ${answers.test}
+
+  ## Questions
+
+  If you have any additional questions about this application, you can reach me via e-mail.
+  - [EMAIL](mailto:${answers.email})
+  - [GITHUB](https://github.com/${answers.github})
+  - [LINKEDIN](https://${answers.linkedin})`;
 }
 
-module.exports = generateMarkdown;
+// Exports const and methods from this file 
+module.exports = {
+  generateMarkdown,
+  licenseOptions,
+  renderLicenseBadge,
+  renderLicenseLink,
+  renderLicenseSection,
+  generateMarkdown,
+  licenseBadge,
+}
