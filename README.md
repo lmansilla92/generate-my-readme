@@ -15,7 +15,7 @@ In this repository you will find the application code to a README generator. The
 
 ## Contribute
 
-To view the repository of this weather app and contribute to this application click the following link:  [Generate My README](https://github.com/lmansilla92/generate-my-readme)
+To view the repository of this application and contribute to this application click the following link:  [Generate My README](https://github.com/lmansilla92/generate-my-readme)
 
 If you need help on how to clone a GitHub repository into your local repository, visit the following GitHub link: [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) 
 
@@ -36,16 +36,17 @@ I would like to make the following changes to this application:
 
 Some of the features in this application include:
 
-- Use if inquirer to prompt user with questions
+- Use of inquirer to prompt user with questions
 - Use of fs to write the README file
 
 ## Credits
 
 Link to source used for license badges [https://gist.github.com/lukas-h/2a5d00690736b4c3a7ba]
+
 Starter code for this application [https://github.com/coding-boot-camp/potential-enigma]
 
 ## License
 
-Link to [The MIT License (MIT)](https://github.com/lmansilla92/coding-quiz-challenge/blob/main/LICENSE)
+Link to [The MIT License (MIT)](https://github.com/lmansilla92/generate-my-readme/blob/main/LICENSE)
 
 
