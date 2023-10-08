@@ -1,12 +1,10 @@
-// TODO: Include packages needed for this application
+// Includes packages needed for this application
 const fs = require('fs');
 const inquirer = require('inquirer');
 const generateMarkdown = require('./utils/generateMarkdown');
 const licenseOptions = generateMarkdown.licenseOptions;
-// console.log(licenseOptions);
-// console.log(generateMarkdown);
 
-// TODO: Create an array of questions for user input
+// Creates an array of questions for user input
 const questions = [
     'What is the title of your project?',
     'Enter a description of your project.',
@@ -14,20 +12,19 @@ const questions = [
     'Enter the usage information.',
     'Enter the contribution guidelines.',
     'Enter any test instructions you may have.',
-    'Enter e-mail you would like to be reached out if someone has additional questions about this application.',
+    'Enter e-mail you would like to be reached at if someone has additional questions about this application.',
     'Enter your GitHub Username.',
-    'Enter your LinkedIn URL.',
     'Please choose a license for your project.',
 ];
 
-// TODO: Create a function to write README file
+// Creates a function to write README file
 function writeToFile(fileName, readme) {
     fs.writeFile('README.md', readme, (err) =>
     // Uses ternary operator to check if there's an error, if not then 'Successfully created index.js' is logged.
       err ? console.log(err) : console.log('Successfully created README.md!'))
 };
 
-// TODO: Create a function to initialize app
+// Creates a function to initialize app
 function init() {
     // Inquirer asks questions to the user and stores the answers to be available to access later
     inquirer
@@ -36,61 +33,46 @@ function init() {
         type: 'input',
         name: 'title',
         message: questions[0],
-        // message: 'What is the title of your project?'
     },
     {
         type: 'input',
         name: 'description',
         message: questions[1],
-        // message: 'Enter a description of your project.',
     },
     {
         type: 'input',
         name: 'installation',
         message: questions[2],
-        // message: 'List the installation instructions for your project.',
     },
     {
         type: 'input',
         name: 'usage',
         message: questions[3],
-        // messaage: 'Enter the usage information.',
     },
     {
         type: 'input',
         name: 'contribution',
         message: questions[4],
-        // message: 'Enter the contribution guidelines.',
     },
     {
         type: 'input',
         name: 'test',
         message: questions[5],
-        // message: 'Enter any test instructions you may have.',
     },
     {
         type: 'input',
         name: 'email',
         message: questions[6],
-        // message: 'Enter e-mail you would like to be reached out if someone has additional questions about this application.',
     },
     {
         type: 'input',
         name: 'github',
         message: questions[7],
-        // message: 'Enter your GitHub Username.',
-    },
-    {
-        type: 'input',
-        name: 'linkedin',
-        message: questions[8],
-        // message: 'Enter your LinkedIn URL.',
     },
     {
         type: 'list',
         name: 'license',
-        message: questions[9],
-        // message: 'Please choose a license for your project.',
+        message: questions[8],
         choices: [
         `${licenseOptions[0].name}`,
         `${licenseOptions[1].name}`,
@@ -104,17 +86,13 @@ function init() {
 
     // Stores the user answers from the prompt questions
     .then((answers) => {
-        // console.log('Answers from index.js', answers);
-
+        // Declares license const with a value of the license the user chose
         const license = answers.license;
-        // console.log('This is the license from index.js: ', license);
+        // Calls the function that renders the license badge to the README file
         generateMarkdown.renderLicenseBadge(license);
 
-        const answerData = answers;
-        // console.log('These are the answers from index.js: ', answerData);
-
-        const readme = generateMarkdown.generateMarkdown(answerData);
-        // console.log('This is the README content from index.js: ', readme);
+        // Calls the method that generates the markdown
+        const readme = generateMarkdown.generateMarkdown(answers);
         writeToFile('README.md', readme);
         generateMarkdown.renderLicenseSection(JSON.stringify(generateMarkdown.licenseOptions));
     });
@@ -123,8 +101,6 @@ function init() {
 
 // Function call to initialize app
 init();
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /*
 GIVEN a command-line application that accepts user input
